@@ -1,0 +1,78 @@
+#llamamos a las funciones
+from funciones import dado,movementpc1,movementalexa,ifs
+tablero1 = {7: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                6: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                5: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                4: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                3: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                2: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                1: ["_", "_", "_", "_", "_", "_", "_", "_"],
+                0: ["_", "_", "_", "_", "_", "_", "_", "_"]}
+
+p1=input("Bienvenido a la Serpientes y escaleras")
+print("Tu rival (IA) será Alexa")
+print("Para tirar los dados, tan solo tienes que introducir un punto (.). Si quieres finalizar la partida, bastará con que escribas exit.    A jugar! ")
+
+#contador de casilla
+P1=0
+alexa=0
+
+who="hola"
+
+#JUEGO
+
+jugar=input("Para tirar el dado, inserta un .")
+
+while jugar=="." and who!="FINAL":
+    #TURNO P1
+    jugar = input("Quieres tirar los dados?")
+    tiro = dado(P1)
+    P1 = P1 + tiro
+    print("Has sacado un", tiro, "!")
+    #posicion SIN casilla especial:
+    who="P1"
+
+    posicion_definitiva_p1c, who,tablero1 = movementpc1(P1, who,tablero1)
+    P1 =posicion_definitiva_p1c
+
+    activador="desactivado"
+    #Posicion CON casilla especial:
+    test=0
+
+    activador1, who, posicion_f,tablero_actualizado = ifs(P1, who, activador,test)
+
+    if activador1 == "activado":
+        P1 = posicion_f
+        tablero1=tablero_actualizado
+    else:
+        print("De verdad que no la hay")
+
+    jugar = input("Quieres que Alexa tire los dados?")
+
+
+
+
+    #TURNO ALEXA
+    if jugar == '.':
+        # TURNO ALEXA
+        tiro = dado(alexa)
+        alexa = alexa + tiro
+        print("Alexa ha sacado un", tiro, "!")
+        # posicion SIN casilla especial:
+        who = "AL"
+        posicion_definitiva_alexa, who, tablero1 = movementalexa(alexa, who, tablero1)
+        alexa = posicion_definitiva_alexa
+
+        activador="desactivado"
+        # Posicion CON casilla especial:
+        test=0
+        activador1, who, posicion_f,tablero_actualizado = ifs(alexa, who, activador,test)
+        if activador1 == "activado":
+            alexa = posicion_f
+            tablero1=tablero_actualizado
+        else:
+            continue
+
+
+
+
